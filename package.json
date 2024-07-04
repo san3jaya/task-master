@@ -1,0 +1,131 @@
+{
+  "name": "taskmaster",
+  "displayName": "TaskMaster",
+  "description": "Revolutionizes coding workflow with embedded todo in VS Code.",
+  "version": "1.0.0",
+  "publisher": "LynkByte",
+  "engines": {
+    "vscode": "^1.58.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onConfigurationChanged"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "taskMaster",
+          "title": "TaskMaster",
+          "icon": "images/task-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "taskMaster": [
+        {
+          "id": "tasksView",
+          "name": "Tasks"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "taskMaster.addTask",
+        "title": "Add New Task",
+        "icon": "$(add)"
+      },
+      {
+        "command": "taskMaster.updateTask",
+        "title": "Update Task",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "taskMaster.deleteTask",
+        "title": "Delete Task",
+        "icon": "$(trash)"
+      }
+    ],
+    "configuration": {
+      "title": "TaskMaster",
+      "properties": {
+        "taskMaster.storageScope": {
+          "type": "string",
+          "enum": [
+            "workspace",
+            "global"
+          ],
+          "default": "workspace",
+          "enumDescriptions": [
+            "Store your tasks in the current workspace.",
+            "Store your tasks globally across all workspaces."
+          ],
+          "description": "Select where to store the tasks."
+        }
+      }
+    },
+    "menus": {
+      "view/title": [
+        {
+          "when": "view == tasksView",
+          "command": "taskMaster.addTask",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "taskMaster.updateTask",
+          "when": "viewItem == task",
+          "group": "inline"
+        },
+        {
+          "command": "taskMaster.deleteTask",
+          "when": "viewItem == task",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npx -p typescript tsc -p ./",
+    "compile": "npx -p typescript tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.3",
+    "vscode": "^1.58.0",
+    "eslint": "^7.10.0",
+    "@types/node": "^14.11.1",
+    "@types/vscode": "^1.58.0",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1"
+  },
+  "icon": "images/task-icon.png",
+  "badges": [
+    {
+      "url": "https://example.com/path/to/your/build/status",
+      "href": "https://example.com/path/to/your/project",
+      "description": "Build Status",
+      "type": "build"
+    }
+  ],
+  "galleryBanner": {
+    "color": "#58A6FF",
+    "theme": "dark"
+  },
+  "keywords": [
+    "task management",
+    "todo",
+    "tasks",
+    "productivity"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-github-repo/taskmaster"
+  }
+}
