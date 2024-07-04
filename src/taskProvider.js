@@ -1,5 +1,12 @@
 const vscode = require("vscode");
 
+class TaskGroup extends vscode.TreeItem {
+  constructor(label, collapsibleState) {
+    super(label, collapsibleState);
+    this.contextValue = "taskGroup";
+  }
+}
+
 class TaskProvider {
   constructor(context) {
     this.context = context;
@@ -30,16 +37,40 @@ class TaskProvider {
     }
   }
 
-  getChildren() {
-    return this.tasks;
+  getChildren(element) {
+    if (!element) {
+      // Root of the tree
+      return [
+        new TaskGroup("To Do", vscode.TreeItemCollapsibleState.Expanded),
+        new TaskGroup("Completed", vscode.TreeItemCollapsibleState.Expanded),
+      ];
+    } else if (element instanceof TaskGroup) {
+      // Inside a group
+      return this.tasks.filter(
+        (task) =>
+          (element.label === "To Do" && !task.completed) ||
+          (element.label === "Completed" && task.completed)
+      );
+    }
   }
 
-  getTreeItem(task) {
+  getTreeItem(element) {
+    if (element instanceof TaskGroup) {
+      return element;
+    }
+
     let treeItem = new vscode.TreeItem(
-      `${task.label} -- ${task.category}`,
+      `${element.completed ? "☑" : "☐"} ${element.label} -- ${
+        element.category
+      }`,
       vscode.TreeItemCollapsibleState.None
     );
     treeItem.contextValue = "task";
+    treeItem.command = {
+      command: "taskMaster.toggleTaskCompletion",
+      title: "Toggle Task Completion",
+      arguments: [element],
+    };
     return treeItem;
   }
 
@@ -74,6 +105,15 @@ class TaskProvider {
           this._onDidChangeTreeData.fire();
         }
       });
+  }
+
+  toggleTaskCompletion(task) {
+    const index = this.tasks.indexOf(task);
+    if (index !== -1) {
+      this.tasks[index].completed = !this.tasks[index].completed;
+      this.saveTasks();
+      this._onDidChangeTreeData.fire();
+    }
   }
 }
 

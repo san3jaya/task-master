@@ -23,7 +23,11 @@ function activate(context) {
                 return;
               }
               // Add the task with the collected information
-              const task = { label: value, category: taskCategory };
+              const task = {
+                label: value,
+                category: taskCategory,
+                completed: false,
+              };
               taskProvider.addTask(task); // Assuming addTask() is already defined to handle such objects
             });
         });
@@ -54,7 +58,25 @@ function activate(context) {
     }
   );
 
-  context.subscriptions.push(addDisposable, updateDisposable, deleteDisposable);
+  let toggleDisposable = vscode.commands.registerCommand(
+    "taskMaster.toggleTaskCompletion",
+    function (task) {
+      if (task) {
+        taskProvider.toggleTaskCompletion(task);
+      } else {
+        vscode.window.showWarningMessage(
+          "You must select a task to toggle completion."
+        );
+      }
+    }
+  );
+
+  context.subscriptions.push(
+    addDisposable,
+    updateDisposable,
+    deleteDisposable,
+    toggleDisposable
+  );
 }
 
 function deactivate() {}

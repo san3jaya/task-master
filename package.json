@@ -47,6 +47,11 @@
         "command": "taskMaster.deleteTask",
         "title": "Delete Task",
         "icon": "$(trash)"
+      },
+      {
+        "command": "taskMaster.toggleTaskCompletion",
+        "title": "Toggle Task Completion",
+        "icon": "$(check)"
       }
     ],
     "configuration": {
@@ -83,6 +88,11 @@
         },
         {
           "command": "taskMaster.deleteTask",
+          "when": "viewItem == task",
+          "group": "inline"
+        },
+        {
+          "command": "taskMaster.toggleTaskCompletion",
           "when": "viewItem == task",
           "group": "inline"
         }
