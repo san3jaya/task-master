@@ -1,4 +1,5 @@
 const vscode = require("vscode");
+const path = require("path");
 
 class TaskGroup extends vscode.TreeItem {
   constructor(label, collapsibleState) {
@@ -13,6 +14,16 @@ class TaskProvider {
     this._onDidChangeTreeData = new vscode.EventEmitter();
     this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     this.loadTasks();
+
+    // Load the custom checkbox icons
+    this.checkedIcon = {
+      light: this.context.asAbsolutePath(path.join("images", "checked.svg")),
+      dark: this.context.asAbsolutePath(path.join("images", "checked.svg")),
+    };
+    this.uncheckedIcon = {
+      light: this.context.asAbsolutePath(path.join("images", "unchecked.svg")),
+      dark: this.context.asAbsolutePath(path.join("images", "unchecked.svg")),
+    };
   }
 
   loadTasks() {
@@ -60,9 +71,7 @@ class TaskProvider {
     }
 
     let treeItem = new vscode.TreeItem(
-      `${element.completed ? "☑" : "☐"} ${element.label} -- ${
-        element.category
-      }`,
+      `${element.label} -- ${element.category}`,
       vscode.TreeItemCollapsibleState.None
     );
     treeItem.contextValue = "task";
@@ -71,6 +80,12 @@ class TaskProvider {
       title: "Toggle Task Completion",
       arguments: [element],
     };
+
+    // Use the custom icons
+    treeItem.iconPath = element.completed
+      ? this.checkedIcon
+      : this.uncheckedIcon;
+
     return treeItem;
   }
 

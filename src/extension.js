@@ -1,6 +1,5 @@
 const vscode = require("vscode");
 const TaskProvider = require("./taskProvider");
-const TASK_CATEGORIES = ["Work", "Personal", "Urgent", "Misc"];
 
 function activate(context) {
   const taskProvider = new TaskProvider(context);
@@ -13,23 +12,15 @@ function activate(context) {
       vscode.window
         .showInputBox({ placeHolder: "Add a new task" })
         .then((value) => {
-          vscode.window
-            .showQuickPick(TASK_CATEGORIES, {
-              placeHolder: "Select a category",
-            })
-            .then((taskCategory) => {
-              if (!taskCategory) {
-                vscode.window.showWarningMessage("You must select a category.");
-                return;
-              }
-              // Add the task with the collected information
-              const task = {
-                label: value,
-                category: taskCategory,
-                completed: false,
-              };
-              taskProvider.addTask(task); // Assuming addTask() is already defined to handle such objects
-            });
+          if (!value) {
+            vscode.window.showWarningMessage("You must enter a task to add.");
+          }
+          // Add the task with the collected information
+          const task = {
+            label: value,
+            completed: false,
+          };
+          taskProvider.addTask(task); // Assuming addTask() is already defined to handle such objects
         });
     }
   );
