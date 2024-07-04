@@ -36,7 +36,7 @@ class TaskProvider {
 
   getTreeItem(task) {
     let treeItem = new vscode.TreeItem(
-      `${task.label} -- ${task.category}]`,
+      `${task.label} -- ${task.category}`,
       vscode.TreeItemCollapsibleState.None
     );
     treeItem.contextValue = "task";
