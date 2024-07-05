@@ -5,7 +5,6 @@ function activate(context) {
   const taskProvider = new TaskProvider(context);
   vscode.window.registerTreeDataProvider("tasksView", taskProvider);
 
-  // Register the command for adding a new task
   let addDisposable = vscode.commands.registerCommand(
     "taskMaster.addTask",
     function () {
@@ -15,17 +14,15 @@ function activate(context) {
           if (!value) {
             vscode.window.showWarningMessage("You must enter a task to add.");
           }
-          // Add the task with the collected information
           const task = {
             label: value,
             completed: false,
           };
-          taskProvider.addTask(task); // Assuming addTask() is already defined to handle such objects
+          taskProvider.addTask(task);
         });
     }
   );
 
-  // Register the command for updating an existing task
   let updateDisposable = vscode.commands.registerCommand(
     "taskMaster.updateTask",
     function (task) {
@@ -37,7 +34,6 @@ function activate(context) {
     }
   );
 
-  // Register the command for deleting an existing task
   let deleteDisposable = vscode.commands.registerCommand(
     "taskMaster.deleteTask",
     function (task) {

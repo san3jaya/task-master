@@ -15,7 +15,6 @@ class TaskProvider {
     this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     this.loadTasks();
 
-    // Load the custom checkbox icons
     this.checkedIcon = {
       light: this.context.asAbsolutePath(
         path.join("images", "checked-light.svg")
@@ -58,13 +57,11 @@ class TaskProvider {
 
   getChildren(element) {
     if (!element) {
-      // Root of the tree
       return [
         new TaskGroup("To Do", vscode.TreeItemCollapsibleState.Expanded),
         new TaskGroup("Completed", vscode.TreeItemCollapsibleState.Expanded),
       ];
     } else if (element instanceof TaskGroup) {
-      // Inside a group
       return this.tasks.filter(
         (task) =>
           (element.label === "To Do" && !task.completed) ||
@@ -89,7 +86,6 @@ class TaskProvider {
       arguments: [element],
     };
 
-    // Use the custom icons
     treeItem.iconPath = element.completed
       ? this.checkedIcon
       : this.uncheckedIcon;

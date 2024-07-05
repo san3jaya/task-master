@@ -20,7 +20,7 @@
         {
           "id": "taskMaster",
           "title": "TaskMaster",
-          "icon": "images/task-icon.png"
+          "icon": "images/icon.png"
         }
       ]
     },
@@ -113,7 +113,7 @@
     "eslint": "^7.10.0",
     "typescript": "^4.0.3"
   },
-  "icon": "images/task-icon.png",
+  "icon": "images/icon.png",
   "badges": [
     {
       "url": "https://example.com/path/to/your/build/status",
