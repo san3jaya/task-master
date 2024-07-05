@@ -17,12 +17,20 @@ class TaskProvider {
 
     // Load the custom checkbox icons
     this.checkedIcon = {
-      light: this.context.asAbsolutePath(path.join("images", "checked.svg")),
-      dark: this.context.asAbsolutePath(path.join("images", "checked.svg")),
+      light: this.context.asAbsolutePath(
+        path.join("images", "checked-light.svg")
+      ),
+      dark: this.context.asAbsolutePath(
+        path.join("images", "checked-dark.svg")
+      ),
     };
     this.uncheckedIcon = {
-      light: this.context.asAbsolutePath(path.join("images", "unchecked.svg")),
-      dark: this.context.asAbsolutePath(path.join("images", "unchecked.svg")),
+      light: this.context.asAbsolutePath(
+        path.join("images", "unchecked-light.svg")
+      ),
+      dark: this.context.asAbsolutePath(
+        path.join("images", "unchecked-dark.svg")
+      ),
     };
   }
 
@@ -71,7 +79,7 @@ class TaskProvider {
     }
 
     let treeItem = new vscode.TreeItem(
-      `${element.label} -- ${element.category}`,
+      `${element.label}`,
       vscode.TreeItemCollapsibleState.None
     );
     treeItem.contextValue = "task";
