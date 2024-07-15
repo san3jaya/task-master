@@ -66,10 +66,14 @@ class TaskProvider {
     });
     if (updatedName === undefined) return;
 
-    const updatedPriority = await vscode.window.showQuickPick(
-      ["Low", "Medium", "High"],
-      { placeHolder: "Update task priority" }
-    );
+    const priorities = ["Low", "Medium", "High"];
+    const currentPriorityIndex = priorities.indexOf(task.priority);
+
+    const updatedPriority = await vscode.window.showQuickPick(priorities, {
+      placeHolder: "Update task priority",
+      activeItem: priorities[currentPriorityIndex],
+    });
+
     const updatedDueDate = await vscode.window.showInputBox({
       value: task.dueDate,
       placeHolder: "YYYY-MM-DD",
@@ -82,7 +86,7 @@ class TaskProvider {
       this.tasks[index] = {
         ...this.tasks[index],
         label: updatedName,
-        priority: updatedPriority,
+        priority: updatedPriority || task.priority,
         dueDate: updatedDueDate,
         completed: false,
       };
