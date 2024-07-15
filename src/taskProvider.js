@@ -136,6 +136,7 @@ class TaskProvider {
       High: new vscode.ThemeColor("notificationsErrorIcon.foreground"),
       Medium: new vscode.ThemeColor("notificationsWarningIcon.foreground"),
       Low: new vscode.ThemeColor("notificationsInfoIcon.foreground"),
+      Completed: new vscode.ThemeColor("charts.green"),
     };
 
     let priorityLabel = null;
@@ -143,7 +144,7 @@ class TaskProvider {
     if (element.completed) {
       priorityLabel = new vscode.ThemeIcon(
         "circle-filled",
-        new vscode.ThemeColor("charts.green")
+        priorityColors["Completed"]
       );
     } else {
       priorityLabel = new vscode.ThemeIcon(
