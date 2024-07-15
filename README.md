@@ -1,65 +1,43 @@
-# checkmate README
+# DevTasks
 
-This is the README for your extension "checkmate". After writing up a brief description, we recommend including the following sections.
+## Description
+
+**DevTasks** revolutionizes the coding workflow by integrating a todo functionality directly into VS Code, making task management seamless and efficient. Developed by LynkByte, this extension aims to enhance productivity for developers.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Task Management:** Easily add, update, delete, and toggle the completion of tasks from within VS Code.
+- **Task Views:** Dedicated view in the Activity Bar for quick access to your tasks.
+- **Customization:** Configure task storage on a workspace or global scope based on your preferences.
+- **Filtering and Sorting:** Filter and sort your tasks to focus on what matters the most.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+Requires Visual Studio Code ^1.58.0.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+You can install DevTasks from the VS Code Extension Marketplace or directly from the repository.
+
+## Usage
+
+After installation, you will find a new "DevTasks" icon in the Activity Bar. Here you can manage all your tasks.
+
+### Commands
+
+- **Add New Task:** Add tasks to your list.
+- **Update Task:** Edit existing tasks.
+- **Delete Task:** Remove tasks you no longer need.
+- **Toggle Task Completion:** Mark tasks as completed or revert them to incomplete.
+- **Filter Tasks:** View tasks based on your selected filters.
+- **Sort Tasks:** Organize your tasks according to your sorting preferences.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+DevTasks works best with the latest version of VS Code but requires at least version 1.58.0.
 
-## Extension Settings
+## Contributions
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Contributions are welcome! Please visit our [GitHub repository](https://github.com/san3jaya/task-master) for more details on how to contribute.
 
-For example:
+## License
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+MIT License. See the LICENSE file in the repository for more details.

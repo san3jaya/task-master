@@ -1,6 +1,6 @@
 {
-  "name": "taskmaster",
-  "displayName": "TaskMaster",
+  "name": "devtasks",
+  "displayName": "DevTasks",
   "description": "Revolutionizes coding workflow with embedded todo in VS Code.",
   "version": "1.0.0",
   "publisher": "LynkByte",
@@ -65,7 +65,7 @@
       }
     ],
     "configuration": {
-      "title": "TaskMaster",
+      "title": "DevTasks",
       "properties": {
         "taskMaster.storageScope": {
           "type": "string",
@@ -136,14 +136,6 @@
     "@vscode/test-electron": "^2.4.0"
   },
   "icon": "images/icon.png",
-  "badges": [
-    {
-      "url": "https://example.com/path/to/your/build/status",
-      "href": "https://example.com/path/to/your/project",
-      "description": "Build Status",
-      "type": "build"
-    }
-  ],
   "galleryBanner": {
     "color": "#58A6FF",
     "theme": "dark"
@@ -157,6 +149,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-github-repo/taskmaster"
+    "url": "https://github.com/san3jaya/task-master"
   }
 }
