@@ -120,18 +120,20 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npx -p typescript tsc -p ./",
-    "compile": "npx -p typescript tsc -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/node": "^14.11.1",
     "@types/vscode": "^1.58.0",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
-    "eslint": "^7.10.0",
-    "typescript": "^4.0.3"
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0"
   },
   "icon": "images/icon.png",
   "badges": [
