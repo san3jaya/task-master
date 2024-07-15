@@ -52,6 +52,16 @@
         "command": "taskMaster.toggleTaskCompletion",
         "title": "Toggle Task Completion",
         "icon": "$(check)"
+      },
+      {
+        "command": "taskMaster.filterTasks",
+        "title": "Filter Tasks",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "taskMaster.sortTasks",
+        "title": "Sort Tasks",
+        "icon": "$(sort-precedence)"
       }
     ],
     "configuration": {
@@ -77,6 +87,16 @@
         {
           "when": "view == tasksView",
           "command": "taskMaster.addTask",
+          "group": "navigation"
+        },
+        {
+          "when": "view == tasksView",
+          "command": "taskMaster.filterTasks",
+          "group": "navigation"
+        },
+        {
+          "when": "view == tasksView",
+          "command": "taskMaster.sortTasks",
           "group": "navigation"
         }
       ],
@@ -136,8 +156,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/your-github-repo/taskmaster"
-  },
-  "dependencies": {
-    "vscode": "^1.1.34"
   }
 }

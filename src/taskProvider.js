@@ -14,23 +14,18 @@ class TaskProvider {
     this._onDidChangeTreeData = new vscode.EventEmitter();
     this.onDidChangeTreeData = this._onDidChangeTreeData.event;
     this.loadTasks();
+    this.filter = "All";
+    this.sortBy = "Name";
+  }
 
-    this.checkedIcon = {
-      light: this.context.asAbsolutePath(
-        path.join("images", "checked-light.svg")
-      ),
-      dark: this.context.asAbsolutePath(
-        path.join("images", "checked-dark.svg")
-      ),
-    };
-    this.uncheckedIcon = {
-      light: this.context.asAbsolutePath(
-        path.join("images", "unchecked-light.svg")
-      ),
-      dark: this.context.asAbsolutePath(
-        path.join("images", "unchecked-dark.svg")
-      ),
-    };
+  setFilter(filter) {
+    this.filter = filter;
+    this._onDidChangeTreeData.fire();
+  }
+
+  setSortBy(sortBy) {
+    this.sortBy = sortBy;
+    this._onDidChangeTreeData.fire();
   }
 
   loadTasks() {
@@ -57,17 +52,68 @@ class TaskProvider {
 
   getChildren(element) {
     if (!element) {
-      return [
-        new TaskGroup("To Do", vscode.TreeItemCollapsibleState.Expanded),
-        new TaskGroup("Completed", vscode.TreeItemCollapsibleState.Expanded),
-      ];
+      return this.getRootItems();
     } else if (element instanceof TaskGroup) {
-      return this.tasks.filter(
-        (task) =>
-          (element.label === "To Do" && !task.completed) ||
-          (element.label === "Completed" && task.completed)
-      );
+      return this.getFilteredAndSortedTasks(element.label);
     }
+  }
+
+  getRootItems() {
+    return [
+      new TaskGroup("To Do", vscode.TreeItemCollapsibleState.Expanded),
+      new TaskGroup("Completed", vscode.TreeItemCollapsibleState.Collapsed),
+    ];
+  }
+
+  getFilteredAndSortedTasks(group) {
+    let tasks = this.tasks.filter((task) => {
+      if (group === "To Do" && task.completed) return false;
+      if (group === "Completed" && !task.completed) return false;
+
+      switch (this.filter) {
+        case "All":
+          return true;
+        case "To Do":
+          return !task.completed;
+        case "Completed":
+          return task.completed;
+        case "High Priority":
+          return task.priority === "High";
+        case "Due Soon":
+          return this.isDueSoon(task);
+        default:
+          return true;
+      }
+    });
+
+    return this.sortTasks(tasks);
+  }
+
+  isDueSoon(task) {
+    if (!task.dueDate) return false;
+    const dueDate = new Date(task.dueDate);
+    const today = new Date();
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 3 && diffDays >= 0;
+  }
+
+  sortTasks(tasks) {
+    return tasks.sort((a, b) => {
+      switch (this.sortBy) {
+        case "Name":
+          return a.label.localeCompare(b.label);
+        case "Priority":
+          const priorityOrder = { High: 0, Medium: 1, Low: 2 };
+          return priorityOrder[a.priority] - priorityOrder[b.priority];
+        case "Due Date":
+          if (!a.dueDate) return 1;
+          if (!b.dueDate) return -1;
+          return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+        default:
+          return 0;
+      }
+    });
   }
 
   getTreeItem(element) {
@@ -86,9 +132,30 @@ class TaskProvider {
       arguments: [element],
     };
 
-    treeItem.iconPath = element.completed
-      ? this.checkedIcon
-      : this.uncheckedIcon;
+    const priorityColors = {
+      High: new vscode.ThemeColor("notificationsErrorIcon.foreground"),
+      Medium: new vscode.ThemeColor("notificationsWarningIcon.foreground"),
+      Low: new vscode.ThemeColor("notificationsInfoIcon.foreground"),
+    };
+
+    const priorityLabel = new vscode.ThemeIcon(
+      "circle-filled",
+      priorityColors[element.priority]
+    );
+
+    treeItem.iconPath = priorityLabel;
+
+    let description = `${element.priority}`;
+    if (element.dueDate) {
+      description += ` | Due: ${element.dueDate}`;
+    }
+    treeItem.description = description;
+
+    treeItem.tooltip = new vscode.MarkdownString(
+      `**${element.label}**\n\nPriority: ${element.priority}\nStatus: ${
+        element.completed ? "Completed" : "To Do"
+      }${element.dueDate ? `\nDue Date: ${element.dueDate}` : ""}`
+    );
 
     return treeItem;
   }
@@ -99,16 +166,18 @@ class TaskProvider {
     this._onDidChangeTreeData.fire();
   }
 
-  updateTask(task) {
-    vscode.window
-      .showInputBox({ placeHolder: "Update task", value: task.label })
-      .then((value) => {
-        if (value && this.tasks.indexOf(task) !== -1) {
-          task.label = value;
-          this.saveTasks();
-          this._onDidChangeTreeData.fire();
-        }
-      });
+  updateTask(task, updatedName, updatedPriority, updatedDueDate) {
+    const index = this.tasks.findIndex((t) => t === task);
+    if (index !== -1) {
+      this.tasks[index] = {
+        ...this.tasks[index],
+        label: updatedName,
+        priority: updatedPriority,
+        dueDate: updatedDueDate,
+      };
+      this.saveTasks();
+      this._onDidChangeTreeData.fire();
+    }
   }
 
   deleteTask(task) {
