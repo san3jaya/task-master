@@ -138,10 +138,19 @@ class TaskProvider {
       Low: new vscode.ThemeColor("notificationsInfoIcon.foreground"),
     };
 
-    const priorityLabel = new vscode.ThemeIcon(
-      "circle-filled",
-      priorityColors[element.priority]
-    );
+    let priorityLabel = null;
+
+    if (element.completed) {
+      priorityLabel = new vscode.ThemeIcon(
+        "circle-filled",
+        new vscode.ThemeColor("charts.green")
+      );
+    } else {
+      priorityLabel = new vscode.ThemeIcon(
+        "circle-filled",
+        priorityColors[element.priority]
+      );
+    }
 
     treeItem.iconPath = priorityLabel;
 
@@ -169,12 +178,25 @@ class TaskProvider {
   updateTask(task, updatedName, updatedPriority, updatedDueDate) {
     const index = this.tasks.findIndex((t) => t === task);
     if (index !== -1) {
+      const wasCompleted = this.tasks[index].completed;
       this.tasks[index] = {
         ...this.tasks[index],
         label: updatedName,
         priority: updatedPriority,
         dueDate: updatedDueDate,
+        completed: false,
       };
+
+      if (wasCompleted) {
+        vscode.window.showInformationMessage(
+          `Task "${updatedName}" has been updated and moved back to To Do.`
+        );
+      } else {
+        vscode.window.showInformationMessage(
+          `Task "${updatedName}" has been updated.`
+        );
+      }
+
       this.saveTasks();
       this._onDidChangeTreeData.fire();
     }
