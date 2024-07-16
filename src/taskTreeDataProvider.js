@@ -11,12 +11,12 @@ class TaskTreeDataProvider {
     }
 
     const treeItem = new vscode.TreeItem(
-      element.label,
+      this.truncateLabel(element.label),
       vscode.TreeItemCollapsibleState.None
     );
     treeItem.contextValue = "task";
     treeItem.command = {
-      command: "taskMaster.toggleTaskCompletion",
+      command: "devTasks.toggleTaskCompletion",
       title: "Toggle Task Completion",
       arguments: [element],
     };
@@ -38,13 +38,25 @@ class TaskTreeDataProvider {
     treeItem.description = `${element.priority}${
       element.dueDate ? ` | Due: ${element.dueDate}` : ""
     }`;
-    treeItem.tooltip = new vscode.MarkdownString(
-      `**${element.label}**\n\nPriority: ${element.priority}\nStatus: ${
-        element.completed ? "Completed" : "To Do"
-      }${element.dueDate ? `\nDue Date: ${element.dueDate}` : ""}`
-    );
+
+    // Create a detailed tooltip
+    treeItem.tooltip = new vscode.MarkdownString(this.createTooltip(element));
 
     return treeItem;
+  }
+
+  truncateLabel(label) {
+    return label.length > 20 ? label.substring(0, 17) + "..." : label;
+  }
+
+  createTooltip(element) {
+    let tooltip = `**${element.label}**\n\n`;
+    tooltip += `Priority: ${element.priority}\n`;
+    tooltip += `Status: ${element.completed ? "Completed" : "To Do"}\n`;
+    if (element.dueDate) {
+      tooltip += `Due Date: ${element.dueDate}\n`;
+    }
+    return tooltip;
   }
 
   getChildren(element) {

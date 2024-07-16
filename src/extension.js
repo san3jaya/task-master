@@ -22,7 +22,7 @@ function activate(context) {
 
   commands.forEach(({ name, method }) => {
     context.subscriptions.push(
-      vscode.commands.registerCommand(`taskMaster.${name}`, method)
+      vscode.commands.registerCommand(`devTasks.${name}`, method)
     );
   });
 }

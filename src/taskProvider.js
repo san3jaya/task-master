@@ -12,7 +12,7 @@ class TaskProvider {
 
   loadTasks() {
     const storageScope = vscode.workspace
-      .getConfiguration("taskMaster")
+      .getConfiguration("devTasks")
       .get("storageScope");
     return storageScope === "workspace"
       ? this.context.workspaceState.get("tasks", [])
@@ -21,7 +21,7 @@ class TaskProvider {
 
   saveTasks() {
     const storageScope = vscode.workspace
-      .getConfiguration("taskMaster")
+      .getConfiguration("devTasks")
       .get("storageScope");
     const storage =
       storageScope === "workspace"

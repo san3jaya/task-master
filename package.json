@@ -18,14 +18,14 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "taskMaster",
-          "title": "TaskMaster",
+          "id": "devTasks",
+          "title": "DevTasks",
           "icon": "images/icon.png"
         }
       ]
     },
     "views": {
-      "taskMaster": [
+      "devTasks": [
         {
           "id": "tasksView",
           "name": "Tasks"
@@ -34,32 +34,32 @@
     },
     "commands": [
       {
-        "command": "taskMaster.addTask",
+        "command": "devTasks.addTask",
         "title": "Add New Task",
         "icon": "$(add)"
       },
       {
-        "command": "taskMaster.updateTask",
+        "command": "devTasks.updateTask",
         "title": "Update Task",
         "icon": "$(edit)"
       },
       {
-        "command": "taskMaster.deleteTask",
+        "command": "devTasks.deleteTask",
         "title": "Delete Task",
         "icon": "$(trash)"
       },
       {
-        "command": "taskMaster.toggleTaskCompletion",
+        "command": "devTasks.toggleTaskCompletion",
         "title": "Toggle Task Completion",
         "icon": "$(check)"
       },
       {
-        "command": "taskMaster.filterTasks",
+        "command": "devTasks.filterTasks",
         "title": "Filter Tasks",
         "icon": "$(filter)"
       },
       {
-        "command": "taskMaster.sortTasks",
+        "command": "devTasks.sortTasks",
         "title": "Sort Tasks",
         "icon": "$(sort-precedence)"
       }
@@ -67,7 +67,7 @@
     "configuration": {
       "title": "DevTasks",
       "properties": {
-        "taskMaster.storageScope": {
+        "devTasks.storageScope": {
           "type": "string",
           "enum": [
             "workspace",
@@ -86,33 +86,33 @@
       "view/title": [
         {
           "when": "view == tasksView",
-          "command": "taskMaster.addTask",
+          "command": "devTasks.addTask",
           "group": "navigation"
         },
         {
           "when": "view == tasksView",
-          "command": "taskMaster.filterTasks",
+          "command": "devTasks.filterTasks",
           "group": "navigation"
         },
         {
           "when": "view == tasksView",
-          "command": "taskMaster.sortTasks",
+          "command": "devTasks.sortTasks",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "taskMaster.updateTask",
+          "command": "devTasks.updateTask",
           "when": "viewItem == task",
           "group": "inline"
         },
         {
-          "command": "taskMaster.deleteTask",
+          "command": "devTasks.deleteTask",
           "when": "viewItem == task",
           "group": "inline"
         },
         {
-          "command": "taskMaster.toggleTaskCompletion",
+          "command": "devTasks.toggleTaskCompletion",
           "when": "viewItem == task",
           "group": "inline"
         }
