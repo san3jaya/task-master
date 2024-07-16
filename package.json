@@ -2,7 +2,7 @@
   "name": "devtasks",
   "displayName": "DevTasks",
   "description": "Revolutionizes coding workflow with embedded todo in VS Code.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "LynkByte",
   "engines": {
     "vscode": "^1.58.0"
